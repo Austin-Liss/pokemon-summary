@@ -12,4 +12,17 @@ stats = (df.groupby('legendary')['total']
          .round(1)
          .rename(index={False:'Regular', True:'Legendary'})
          .rename_axis('group'))
-print(stats)
+print(stats.shape)
+
+# compare all six stats.
+STATS = ['hp', 'attack', 'defense', 'sp_atk', 'sp_def', 'speed']
+mean = df.groupby('legendary')[STATS].mean().round(1)
+gap = mean.loc[True] - mean.loc[False]
+percentage =( (mean.loc[True] / mean.loc[False] -1) * 100).round(1)
+table = (pd.DataFrame({
+        'regular' : mean.loc[False],
+        'Legendary' : mean.loc[True],
+        'Gap' : gap,
+        "Percentage" : percentage
+}))
+print(table)
