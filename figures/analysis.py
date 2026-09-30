@@ -5,3 +5,11 @@ df.columns = df.columns.str.lower().str.replace(' ', '_').str.replace('.', '', r
 
 # Counting Legendaries
 print(df['legendary'].value_counts()) # Only 65 legendaries out of 800 Pokemons
+
+# Comparing Legendary vs Non-Legendary
+stats = (df.groupby('legendary')['total']
+         .agg(n='count',mean='mean',median='median',deviation='std')
+         .round(1)
+         .rename(index={False:'Regular', True:'Legendary'})
+         .rename_axis('group'))
+print(stats)
